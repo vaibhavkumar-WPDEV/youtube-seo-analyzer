@@ -533,7 +533,11 @@ function videoTable(list) {
     const n = glen(v.title);
     const max = v.isShort ? 60 : 70;
     tbody.append(
-      h('tr', { class: state.drawerId === v.id ? 'is-open' : '' },
+      h('tr', {
+        class: state.drawerId === v.id ? 'is-open' : '',
+        // The whole row opens the checks; the button in the first cell is the keyboard target.
+        onclick: (e) => { if (!e.target.closest('button, a')) openDrawer(v.id, e.currentTarget.querySelector('.row-open')); },
+      },
         h('td', { class: 'c-video' },
           h('button', { type: 'button', class: 'row-open', onclick: (e) => openDrawer(v.id, e.currentTarget), 'aria-label': `Open checks for ${v.title}` },
             h('span', { class: `thumb${v.isShort ? ' thumb-short' : ''}` }, v.thumbSmall ? h('img', { src: v.thumbSmall, alt: '', loading: 'lazy', width: 112, height: 63, referrerpolicy: 'no-referrer' }) : null),
