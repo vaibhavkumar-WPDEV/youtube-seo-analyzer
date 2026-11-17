@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>YouTube SEO Analyzer</title>
+  <meta name="description" content="Free YouTube channel SEO analyzer. Scores every video's title, description, tags, hashtags, chapters, thumbnail and engagement, and shows exactly what to fix. Runs in your browser.">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://accounts.google.com https://suggestqueries.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://i.ytimg.com https://*.ytimg.com https://yt3.ggpht.com https://*.ggpht.com https://*.googleusercontent.com; connect-src https://www.googleapis.com https://youtube.googleapis.com https://i.ytimg.com https://accounts.google.com https://oauth2.googleapis.com; frame-src https://accounts.google.com; base-uri 'self'; form-action 'self'">
+  <meta property="og:title" content="YouTube SEO Analyzer">
+  <meta property="og:description" content="Check every video's title, description, tags, hashtags, chapters and thumbnail — and get copy-ready fixes.">
+  <meta name="theme-color" content="#2f3cc9">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#videos" aria-label="YouTube SEO Analyzer, home">
+        <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
+          <rect x="3" y="13" width="26" height="11" rx="3" fill="#ffe46b"/>
+          <path d="M6 16.5l6.5 6.5L27 7.5" fill="none" stroke="#2f3cc9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>YouTube SEO Analyzer</span>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <button type="button" data-view="videos">Videos</button>
+        <button type="button" data-view="keywords">Keywords</button>
+        <button type="button" data-view="channel">Channel</button>
+        <button type="button" data-view="settings">Settings</button>
+      </nav>
+      <div class="topbar-right">
+        <div id="channel-pill" class="channel-pill" hidden></div>
+        <button id="theme-btn" type="button" class="btn btn-small ghost">Theme: auto</button>
+        <button id="analyze-btn" type="button" class="btn btn-primary">Analyze channel</button>
+      </div>
+    </div>
+    <div id="progress" class="progress" role="status" aria-live="polite" hidden></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div id="view-videos" class="view"></div>
+    <div id="view-keywords" class="view" hidden></div>
+    <div id="view-channel" class="view" hidden></div>
+    <div id="view-settings" class="view" hidden></div>
+  </main>
+
+  <footer class="site-foot">
+    Not affiliated with YouTube or Google. Uses the YouTube Data API v3. Your API key and data stay in this browser.
+    · <a href="https://github.com/vaibhavkumar-WPDEV/youtube-seo-analyzer">Source on GitHub</a>
+  </footer>
+
+  <div id="drawer-backdrop" class="drawer-backdrop" hidden></div>
+  <aside id="drawer" class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" hidden>
+    <div class="drawer-head">
+      <h2 id="drawer-title">Video</h2>
+      <button id="drawer-close" type="button" class="btn btn-small">Close</button>
+    </div>
+    <div id="drawer-body" class="drawer-body"></div>
+  </aside>
+
+  <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
