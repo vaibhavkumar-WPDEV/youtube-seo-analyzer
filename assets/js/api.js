@@ -310,17 +310,21 @@ export async function isCustomThumbnail(videoId) {
 
 // ---------------------------------------------------------------------------
 // Keyword ideas from YouTube search autocomplete.
-// The JSONP script runs inside a sandboxed iframe (no access to this page or your key).
+// The JSONP request runs in a small helper page (assets/suggest.html) inside a sandboxed
+// iframe with no origin, so it has no access to this page or your key.
+// (An inline srcdoc frame can't be used: it inherits this page's script policy.)
 // ---------------------------------------------------------------------------
+const SUGGEST_PAGE = new URL('../suggest.html', import.meta.url).href;
+
 export function keywordIdeas(seed, { hl = 'hi', gl = 'IN' } = {}) {
   return new Promise((resolve, reject) => {
     const nonce = Math.random().toString(36).slice(2);
-    const src = `https://suggestqueries.google.com/complete/search?client=youtube&ds=yt&hl=${encodeURIComponent(hl)}&gl=${encodeURIComponent(gl)}&q=${encodeURIComponent(seed)}&callback=cb`;
-    const doc = `<!doctype html><script>function cb(d){parent.postMessage({n:${JSON.stringify(nonce)},d:d},'*')}<\/script><script src="${src.replace(/"/g, '&quot;')}" onerror="parent.postMessage({n:${JSON.stringify(nonce)},e:1},'*')"><\/script>`;
     const frame = document.createElement('iframe');
     frame.setAttribute('sandbox', 'allow-scripts');
+    frame.setAttribute('aria-hidden', 'true');
+    frame.tabIndex = -1;
     frame.style.display = 'none';
-    frame.srcdoc = doc;
+    frame.src = `${SUGGEST_PAGE}#${new URLSearchParams({ q: seed, hl, gl, n: nonce })}`;
     const timer = setTimeout(() => done(new Error('No answer from YouTube suggestions. Try again.')), 8000);
     function done(err, list) {
       clearTimeout(timer);
