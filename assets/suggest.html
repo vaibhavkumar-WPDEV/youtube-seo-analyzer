@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://suggestqueries.google.com">
+<meta name="robots" content="noindex">
+<title>Keyword suggestions helper</title>
+</head>
+<body>
+<!--
+  Loaded by the dashboard in a sandboxed iframe (allow-scripts only), so it runs with no origin:
+  it cannot read the dashboard page, its storage or your API key.
+  It asks YouTube search autocomplete for ideas and posts the list back to the dashboard.
+-->
+<script>
+(function () {
+  var p = new URLSearchParams(location.hash.slice(1));
+  var n = p.get('n') || '';
+  function send(msg) {
+    msg.n = n;
+    parent.postMessage(msg, '*');
+  }
+  window.cb = function (d) { send({ d: d }); };
+  var q = p.get('q') || '';
+  if (!q) { send({ e: 1 }); return; }
+  var s = document.createElement('script');
+  s.src = 'https://suggestqueries.google.com/complete/search?client=youtube&ds=yt' +
+    '&hl=' + encodeURIComponent(p.get('hl') || 'en') +
+    '&gl=' + encodeURIComponent(p.get('gl') || 'US') +
+    '&q=' + encodeURIComponent(q) +
+    '&callback=cb';
+  s.onerror = function () { send({ e: 1 }); };
+  document.head.appendChild(s);
+})();
+</script>
+</body>
+</html>
