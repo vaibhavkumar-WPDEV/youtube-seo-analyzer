@@ -891,6 +891,10 @@ textarea:hover {
   padding-right: 20px;
 }
 
+.vtable tbody tr {
+  cursor: pointer;
+}
+
 .vtable tbody tr:hover,
 .vtable tbody tr.is-open {
   background: var(--sunk);
